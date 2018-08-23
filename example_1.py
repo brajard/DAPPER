@@ -24,7 +24,7 @@ avrgs = stats.average_in_time()
 print_averages(config,avrgs,[],['rmse_a','rmv_a'])
 
 # Plot some diagnostics 
-plot_time_series(stats)
+plot_time_series(stats, dim=1)
 
 # "Explore" objects individually
 #print(setup)
