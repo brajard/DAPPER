@@ -3,7 +3,7 @@
 
 # Load DAPPER. Assumes pwd is <path-to-dapper>
 from common import *
-import sys
+
 
 # Load "twin experiment" setup
 from mods.SW.sw import setup
