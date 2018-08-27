@@ -18,9 +18,9 @@ X0 = RV (m=m, file=sample_filename)
 ############################
 # Observation settings
 ############################
-p  = 1000
+p  = 5000
 
-obs_field = {'hphy','uphy'}
+obs_field = {'hphy','uphy','vphy'}
 ptotal = p*len(obs_field)
 
 def obs_inds(t):
