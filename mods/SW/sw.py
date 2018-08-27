@@ -18,7 +18,7 @@ X0 = RV (m=m, file=sample_filename)
 ############################
 # Observation settings
 ############################
-p  = 5000
+p  = 2000
 
 obs_field = {'hphy','uphy','vphy'}
 ptotal = p*len(obs_field)
