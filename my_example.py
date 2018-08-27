@@ -13,7 +13,7 @@ from mods.SW.core import SW,rstfile
 #setup.t.T = 10*1800.
 
 # Specify a DA method configuration
-config = EnKF('Sqrt', N=50, infl=1.02, rot=True, liveplotting=False)
+config = EnKF('Sqrt', N=10, infl=1.02, rot=True, liveplotting=False)
 
 if make_simu:
 	# Simulate synthetic truth (xx) and noisy obs (yy)
