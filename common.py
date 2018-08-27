@@ -110,7 +110,7 @@ import matplotlib.pyplot as plt
 plt.ion()
 
 # Styles, e.g. 'fivethirtyeight', 'bmh', 'seaborn-darkgrid'
-plt.style.use(['seaborn-darkgrid','tools/DAPPER.mplstyle'])
+#plt.style.use(['seaborn-darkgrid','tools/DAPPER.mplstyle'])
 
 
 

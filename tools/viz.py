@@ -968,7 +968,7 @@ def plot_time_series(stats,dim=0,**kwargs):
   ax_e.fill_between(tt_, rmv ,alpha=0.7,label='Spread') 
   ax_e.set_ylim(0, 1.1*max(np.percentile(rmse,99), rmv.max()) )
   ax_e.set_ylabel('RMS')
-  ax_e.set_xlabel('time (t)')
+  ax_e.set_xlabel('timed (t)')
   ax_e.legend()
 
 

@@ -26,20 +26,35 @@ SW = SWmodel(nx=prms['nx'], ny=prms['ny'], warg=warg)
 SW.inistate_rst(rstfile)
 
 dt = SW.dt
+month_s = 3600*24*30
+month_int = month_s // dt  # number of time step for a month
+
 # Variables have to be ordered to be stacked and unstacked
 # restVar are variables needed for a restart and therefore needed as state for a forward
-ordered_varname = tuple(v for v in SW._restVar)
+ordered_varname = ['hphy','uphy','vphy','hfil','ufil','vfil']
+
+assert(not bool(SW._restVar.symmetric_difference(set(ordered_varname))))
 
 # Total size of the domain:
 nxy = prms['nx']*prms['ny']
 #Total size of the state variable
 m = nxy * len(ordered_varname)
 
+#########################
+# Domain Management
+#########################
+
+def field_index(name):
+    """Return in the stacked vector the index corresponding to a field"""
+    i = ordered_varname.index(name)
+    return slice(i*nxy,(i+1)*nxy)
+
 
 # stack/unstack function
 def unstack(x, sw):
     """ unstack x (vector) in the state variables of the SW
     unstack function modifies SW fields"""
+    x = x.ravel()
     for i, name in enumerate(ordered_varname):
         #print(i, name)
         sw.set_state(name, x[i * nxy:(i + 1) * nxy].reshape((prms['ny'], prms['nx'])))
@@ -96,12 +111,12 @@ def gen_sample(Len,SpinUp,Spacing):
 
 
 
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     if not os.path.isfile(sample_filename) or rewrite:
         print('Generating a "random" sample with which to start simulations')
-        month = 3600*24*30 // dt #number of time step for a month
-        sample = gen_sample(100, 0, 2*month)
+        sample = gen_sample(100, 0, 2*month_int)
         #spacing : 2 months
         np.savez(sample_filename, sample=sample)
