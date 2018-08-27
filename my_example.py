@@ -5,7 +5,7 @@
 from common import *
 
 
-print ('HOST')
+print (' HOST !!!')
 
 # Load "twin experiment" setup
 from mods.SW.sw import setup
