@@ -2,8 +2,8 @@ from neuralsw.model.shalw import SWmodel
 import numpy as np
 import os
 from common import progbar
-
-datadir = os.path.realpath('/Users/brajard/Documents/recherche/collaboration/bigdata/shallownn/data')
+datadir = os.path.join(os.path.dirname(os.path.realpath(__file__)),'../../../shallownn/data')
+#datadir = os.path.realpath('/Users/brajard/Documents/recherche/collaboration/bigdata/shallownn/data')
 
 rstfile = os.path.join(datadir, 'restart_10years.nc')
 sample_filename = os.path.join(datadir, 'SW_samples.npz')
