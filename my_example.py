@@ -4,6 +4,9 @@
 # Load DAPPER. Assumes pwd is <path-to-dapper>
 from common import *
 
+
+print ('HOST')
+
 # Load "twin experiment" setup
 from mods.SW.sw import setup
 from mods.SW.core import SW,rstfile

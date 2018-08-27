@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@ssh://julaja@johansen.nersc.no:5522/Home/julaja/anaconda3/envs/nn/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$" remote-root="/Home/julaja/project/Dapper" />
+              <mapping local-root="$PROJECT_DIR$" remote-root="/Home/julaja/project/DAPPER" />
             </list>
           </settings>
         </remote-mappings>
