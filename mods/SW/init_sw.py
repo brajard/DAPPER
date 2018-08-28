@@ -9,6 +9,8 @@ First generate a restart and then generate some samples
 
 from neuralsw.model.shalw import SWda as SWmodel
 import os,sys
+sys.path.append(os.getcwd())
+
 from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,7 +18,6 @@ import xarray as xr
 from mods.SW.core import gen_sample, month_int
 
 
-sys.path.append(os.getcwd())
 
 # GENERATE restart
 def generate_restart(rstfile,endtime,outname=None,PLOT=True):
