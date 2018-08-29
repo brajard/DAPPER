@@ -91,4 +91,4 @@ if __name__=='__main__':
 
 	if not os.path.isfile(rstfile):
 		generate_restart(rstfile,endtime,outname,PLOT=False)
-	generate_sample(sample_filename)
+	generate_sample(sample_filename,True)
