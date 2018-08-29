@@ -89,5 +89,6 @@ if __name__=='__main__':
 
 	print('data directory:', datadir)
 
-	generate_restart(rstfile,endtime,outname)
+	if not os.path.isfile(rstfile):
+		generate_restart(rstfile,endtime,outname,PLOT=False)
 	generate_sample(sample_filename)

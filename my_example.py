@@ -33,7 +33,7 @@ if make_simu:
 	plt.savefig('time_series.png')
 
 	save_stats('stats.npz',stats)
-stats2 = plot_from_file('stats.npz',t=100)
+stats2 = plot_from_file('stats.npz',t=-1)
 plt.savefig('state_100.png')
 # "Explore" objects individually
 #print(setup)

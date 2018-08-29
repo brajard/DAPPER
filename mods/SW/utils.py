@@ -17,7 +17,7 @@ def save_stats(fname,stats,fields={'mu','var'},store_u=False):
 	np.savez(fname,**save_dic)
 	#TODO : better save (with time)
 
-def plot_from_file(fname,t=1):
+def plot_from_file(fname,t=-1):
 	stats = np.load(fname)
 	mu_a = stats['mu_a']
 	mu_f = stats['mu_f']
