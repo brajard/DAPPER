@@ -1,4 +1,4 @@
-from neuralsw.model.shalw import SWmodel
+from neuralsw.model.shalw import SWda as SWmodel
 import numpy as np
 import os
 from common import progbar
@@ -10,7 +10,7 @@ from tools.randvars import RV
 datadir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../shallownn/data')
 # datadir = os.path.realpath('/Users/brajard/Documents/recherche/collaboration/bigdata/shallownn/data')
 
-rstfile = os.path.join(datadir, 'restart_10years.nc')
+rstfile = os.path.join(datadir, 'restart_10years_da.nc')
 sample_filename = os.path.join(datadir, 'SW_samples.npz')
 
 # to regenerate the sample
@@ -22,7 +22,8 @@ prms = { 'nx': 80, 'ny': 80 }
 warg = dict()
 
 SW = SWmodel(nx=prms['nx'], ny=prms['ny'], warg=warg)
-SW.inistate_rst(rstfile)
+if os.path.isfile(rstfile):
+	SW.inistate_rst(rstfile)
 
 dt = SW.dt
 month_s = 3600 * 24 * 30
@@ -31,7 +32,8 @@ month_int = month_s // dt  # number of time step for a month
 # Variables have to be ordered to be stacked and unstacked
 # restVar are variables needed for a restart and therefore needed as state for a forward
 ordered_varname_state = ['hphy', 'uphy', 'vphy']
-ordered_varname_ext = ordered_varname_state + ['hfil', 'ufil', 'vfil']
+ordered_varname_ext = ordered_varname_state + \
+                      ['hfil', 'ufil', 'vfil','hpre','upre','vpre']
 assert (not bool(SW._restVar.symmetric_difference(set(ordered_varname_ext))))
 
 # Total size of the domain:
