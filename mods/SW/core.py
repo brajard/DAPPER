@@ -10,8 +10,8 @@ from tools.randvars import RV
 datadir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../shallownn/data')
 # datadir = os.path.realpath('/Users/brajard/Documents/recherche/collaboration/bigdata/shallownn/data')
 
-rstfile = os.path.join(datadir, 'restart_10years_da.nc')
-sample_filename = os.path.join(datadir, 'SW_samples.npz')
+rstfile = os.path.join(datadir, 'restart_10years_dafull.nc')
+sample_filename = os.path.join(datadir, 'SW_samples_dafull.npz')
 
 # to regenerate the sample
 rewrite = True
@@ -20,8 +20,10 @@ rewrite = True
 prms = { 'nx': 80, 'ny': 80 }
 
 warg = dict()
+swarg = dict()
+swarg['nu'] = 0.72*4
 
-SW = SWmodel(nx=prms['nx'], ny=prms['ny'], warg=warg)
+SW = SWmodel(nx=prms['nx'], ny=prms['ny'], warg=warg,**swarg)
 if os.path.isfile(rstfile):
 	SW.inistate_rst(rstfile)
 
@@ -31,9 +33,13 @@ month_int = month_s // dt  # number of time step for a month
 
 # Variables have to be ordered to be stacked and unstacked
 # restVar are variables needed for a restart and therefore needed as state for a forward
-ordered_varname_state = ['hphy', 'uphy', 'vphy']
-ordered_varname_ext = ordered_varname_state + \
-                      ['hfil', 'ufil', 'vfil','hpre','upre','vpre']
+
+#ordered_varname_state = ['hphy', 'uphy', 'vphy']
+#ordered_varname_ext = ordered_varname_state + \
+#                      ['hfil', 'ufil', 'vfil','hpre','upre','vpre']
+
+ordered_varname_state = ['hphy', 'uphy', 'vphy']+['hfil', 'ufil', 'vfil','hpre','upre','vpre']
+ordered_varname_ext = ordered_varname_state
 assert (not bool(SW._restVar.symmetric_difference(set(ordered_varname_ext))))
 
 # Total size of the domain:
@@ -149,6 +155,7 @@ class SWSetup(MLR_Print):
 		self._Eintern = None  # Current state
 		self._tsave = None  # Current time step
 		self._X0 = SWRV(self, self._mext, file = sample_filename)
+		self._firstupdate = False
 
 	def clean ( self ):
 		self._Eintern = None
@@ -180,12 +187,23 @@ class SWSetup(MLR_Print):
 
 	@E.setter
 	def E (self, value):
+		if self._firstupdate :
+			mm = self._mstate
+			self._firstupdate = False
+			inc = value - self.E
+			if 2*mm <= self._mext:
+				self._Eintern[:,mm:2*mm] += inc
+			if 3*mm <= self._mext:
+				self._Eintern[:,2*mm:] += inc
 		self._Eintern[:,:self._mstate] = value
+
+
 
 	@Eintern.setter
 	def Eintern ( self, value ):
 		assert self._Eintern is None, 'changing model state is not allowed'
 		self._Eintern = value
+		self._firstupdate = True
 
 	def model( self, E, t,dt ):
 		if not self._tsave is None:

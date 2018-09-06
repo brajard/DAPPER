@@ -17,7 +17,10 @@ def save_stats(fname,stats,fields={'mu','var'},store_u=False):
 	np.savez(fname,**save_dic)
 	#TODO : better save (with time)
 
-def plot_from_file(fname,t=-1):
+def plot_from_file(fname,t=-1,
+		vmin1=-120,vmax1=120,
+		vmin2=-10,vmax2=10,
+		vmin=0, vmax=5):
 	stats = np.load(fname)
 	mu_a = stats['mu_a']
 	mu_f = stats['mu_f']
@@ -25,9 +28,9 @@ def plot_from_file(fname,t=-1):
 	FA = mu_a[t,field_index('hphy')].reshape((prms['ny'],prms['nx']))
 	FF = mu_f[t,field_index('hphy')].reshape((prms['ny'],prms['nx']))
 	FT = xx[t,field_index('hphy')].reshape((prms['ny'],prms['nx']))
+
+	#Plot ensemble mean
 	fig,ax = plt.subplots(ncols=3,nrows=2)
-	vmin1,vmax1 = -120,120
-	vmin2,vmax2 = -10,10
 	ax[0,2].imshow(FA,vmin=vmin1,vmax=vmax1)
 	ax[0,2].set_title('Analysis')
 	im1 = ax[0,1].imshow(FF,vmin=vmin1,vmax=vmax1)
@@ -45,4 +48,16 @@ def plot_from_file(fname,t=-1):
 	fig.colorbar(im1,cax=cax1,orientation='horizontal')
 	fig.colorbar(im2,cax=cax2,orientation='horizontal')
 
-	return stats
+	#Plot ensemble std
+	var_a = stats['var_a']
+	var_f = stats['var_f']
+	FA = var_a[t,field_index('hphy')].reshape((prms['ny'],prms['nx']))
+	FF = var_f[t,field_index('hphy')].reshape((prms['ny'],prms['nx']))
+	fig2,ax = plt.subplots(ncols=2)
+	im=ax[0].imshow(np.sqrt(FF),vmin=vmin,vmax=vmax)
+	ax[0].set_title('Forecast std')
+	ax[1].imshow(np.sqrt(FA),vmin=vmin,vmax=vmax)
+	ax[1].set_title('Analysis std')
+	cax = fig2.add_axes([0.33,0.05,0.33,0.02])
+	fig2.colorbar(im,cax=cax,orientation='horizontal')
+	return stats,fig,fig2

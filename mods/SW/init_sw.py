@@ -73,7 +73,7 @@ if __name__=='__main__':
 	datadir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../shallownn/data')
 
 	# suffix (modify default parameters if not empty)
-	suf = '_da'
+	suf = '_dafull'
 
 	# savefile (to check the run)
 	outname = os.path.join(datadir, 'restartrun' + suf + '.nc')
@@ -82,13 +82,14 @@ if __name__=='__main__':
 	rstfile = os.path.join(datadir, 'restart_10years' + suf + '.nc')
 
 	#sample file
-	sample_filename = os.path.join(datadir, 'SW_samples.npz')
+	sample_filename = os.path.join(datadir, 'SW_samples_dafull.npz')
 
 	# Duration of the integration
 	endtime = 48 * 30 * 12 * 10  # 10 years
 
 	print('data directory:', datadir)
 
+	#TODO Correct, does not work if no restart.
 	if not os.path.isfile(rstfile):
 		generate_restart(rstfile,endtime,outname,PLOT=False)
 	generate_sample(sample_filename,True)

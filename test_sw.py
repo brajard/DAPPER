@@ -51,7 +51,13 @@ class Testswsetup(TestCase):
 		E12 = step(E02,0.,SW.dt)
 		self.assertAlmostEqual(np.linalg.norm(E11-E12[:,:m]),0,7)
 		self.assertAlmostEqual(np.linalg.norm(self.setup.Eintern-E12),0,7)
-
+	def test_xprec( self ):
+		f, X0 = self.setup.f, self.setup.X0
+		E0 = X0.sample(2)
+		E1 = f(E0,0.,SW.dt)
+		E1intern = self.setup.Eintern.copy()
+		if 2*m <= E1intern.shape[1]:
+			self.assertAlmostEqual(np.linalg.norm(E1intern[:,2*m:]-E0[:,:m]),0,7)
 
 class Testcore(TestCase):
 	def test_varrestart( self ):

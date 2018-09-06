@@ -5,7 +5,7 @@ from tools.randvars import  RV, GaussRV
 from mods.SW.core import SWSetup,step,m,dt, month_s,sample_filename,field_index,ordered_varname_state
 from tools.math import ens_compatible
 import numpy as np
-t = Chronology(dt=float(dt),dkObs=1,T=dt*200,BurnIn=-1)
+t = Chronology(dt=float(dt),dkObs=100,T=2*month_s,BurnIn=-1)
 
 #Forward model
 f = {
@@ -17,20 +17,22 @@ f = {
 ############################
 # Observation settings
 ############################
-p  = 2000
+p  = 1000
 
-obs_field = {'hphy','uphy','vphy'}
+obs_field = {'hphy'}
+
 ptotal = p*len(obs_field)
+tinds =  np.zeros((int(t.T/t.dt),p*len(obs_field)),dtype=int)
+I = np.array(range(m))
+for k,KObs,t_,dt in t.forecast_range:
+	tmp = tuple(np.random.choice(I[field_index(n,ordered_varname_state)],(p)) for n in obs_field)
+	tinds[int(t_/dt)-1,:] = np.concatenate(tmp)
 
-def obs_inds(t):
-	""" for each observed field, draw p random indices in stack vector"""
-	I = np.array(range(m))
-	tinds = tuple(np.random.choice(I[field_index(n,ordered_varname_state)],(p)) for n in obs_field)
-	return np.concatenate(tinds)
+
 
 @ens_compatible
 def hmod(E,t):
-	return E[obs_inds(t)]
+	return E[tinds[int(t/dt)-1]]
 	#It's here that the parametrization term could be added
 
 #
@@ -40,7 +42,7 @@ std_o = 4
 h = {
 	'm': ptotal,
 	'model': hmod,
-	'noise': GaussRV(C=4*np.eye(ptotal))
+	'noise': GaussRV(C=std_o*np.eye(ptotal))
 }
 
 setup = SWSetup(
