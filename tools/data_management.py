@@ -1,6 +1,9 @@
 # Utilities (non-math)
 
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
 
 #########################################
 # 

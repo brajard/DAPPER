@@ -1,6 +1,10 @@
 # Utilities (non-math)
 
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
+
 
 #########################################
 # Progressbar
@@ -146,8 +150,10 @@ def printoptions(*args, **kwargs):
     yield 
     np.set_printoptions(**original)
 
-
-import tools.tabulate as tabulate_orig
+try:
+  import tools.tabulate as tabulate_orig
+except:
+  import DAPPER.tools.tabulate as tabulate_orig
 tabulate_orig.MIN_PADDING = 0
 def tabulate(data,headr=(),formatters=(),inds='nice'):
   """

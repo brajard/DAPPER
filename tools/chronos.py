@@ -1,6 +1,9 @@
 # Time sequence management
+try:
+  from common import *
+except:
+  from DAPPER.common import *
 
-from common import *
 
 class Chronology:
   """

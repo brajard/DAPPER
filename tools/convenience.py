@@ -1,4 +1,8 @@
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
+
 
 def simulate(setup,desc='Truth & Obs'):
   """Generate synthetic truth and observations."""

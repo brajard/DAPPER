@@ -1,4 +1,8 @@
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
+
 
 def auto_cov(xx,L=5,periodic=False,corr=False):
   """

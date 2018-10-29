@@ -1,4 +1,7 @@
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
 
 # Defaults
 CUTOFF   = 1e-3

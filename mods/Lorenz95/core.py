@@ -21,9 +21,14 @@
 #    - or lowering dt
 #    - using an implicit time stepping scheme instead of rk4
 
+
 import numpy as np
 from scipy.linalg import circulant
-from tools.math import rk4, integrate_TLM, is1d
+
+try:
+  from tools.math import rk4, integrate_TLM, is1d
+except:
+  from DAPPER.tools.math import rk4, integrate_TLM, is1d
 
 Force           = 8.0
 prevent_blow_up = False

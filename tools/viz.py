@@ -1,4 +1,7 @@
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
 
 #from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import juggle_axes
@@ -9,6 +12,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib import colors
 from matplotlib.ticker import MaxNLocator
 
+RGBs = {c: array(mpl.colors.colorConverter.to_rgb(c)) for c in 'bgrmyckw'}
 
 class LivePlot:
   """

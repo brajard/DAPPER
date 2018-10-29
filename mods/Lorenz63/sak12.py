@@ -2,9 +2,15 @@
 # Sakov, Oliver, Bertino (2012):
 # "An Iterative EnKF for Strongly Nonlinear Systems"
 
-from common import *
+try:
+  from common import *
+except:
+  from DAPPER.common import *
 
-from mods.Lorenz63.core import step, dfdx
+try:
+	from mods.Lorenz63.core import step, dfdx
+except:
+	from DAPPER.mods.Lorenz63.core import step, dfdx
 
 m = 3
 p = m

@@ -2,10 +2,16 @@
 # This setup is also used in several other papers
 # (bocquet2012"combining",bocquet2015"expanding", raanes2016"EnRTS", ...)
 
-from common import *
+try:
+    from common import *
 
-from mods.Lorenz95.core import step, dfdx, typical_init_params
-from tools.localization import partial_direct_obs_1d_loc_setup as loc
+    from mods.Lorenz95.core import step, dfdx, typical_init_params
+    from tools.localization import partial_direct_obs_1d_loc_setup as loc
+except:
+    from DAPPER.common import *
+
+    from DAPPER.mods.Lorenz95.core import step, dfdx, typical_init_params
+    from DAPPER.tools.localization import partial_direct_obs_1d_loc_setup as loc
 
 t = Chronology(0.05,dkObs=1,T=4**5,BurnIn=20)
 

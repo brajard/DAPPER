@@ -6,7 +6,11 @@
 # ora.ox.ac.uk/objects/uuid:9f9961f0-6906-4147-a8a9-ca9f2d0e4a12
 
 import numpy as np
-from tools.math import with_rk4, is1d, ens_compatible, integrate_TLM
+try:
+  from tools.math import with_rk4, is1d, ens_compatible, integrate_TLM
+except:
+  from DAPPER.tools.math import with_rk4, is1d, ens_compatible, integrate_TLM
+
 
 # Constants
 sig = 10.0; rho = 28.0; beta = 8.0/3

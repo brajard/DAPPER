@@ -1,5 +1,7 @@
-from common import *
-
+try:
+  from common import *
+except:
+  from DAPPER.common import *
 @DA_Config
 def EnKF(upd_a,N,infl=1.0,rot=False,**kwargs):
   """
