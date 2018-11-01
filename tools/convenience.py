@@ -21,7 +21,23 @@ def simulate(setup,desc='Truth & Obs'):
 
   return xx,yy
 
+def simulate_ens(setup,N=1,desc='Simul',squeeze=True):
+  """Generate a simulation on a ensemble (default=1)
+  if squeeze is True and N==1, the output is squeeze on the ens dim"""
+  f,h,chrono,X0 = setup.f, setup.h, setup.t, setup.X0
 
+  # Init
+  xx    = zeros((chrono.K+1,N,f.m))
+  xx[0] = X0.sample(N)
+
+  #Loop
+  for k,kObs,t,dt in progbar(chrono.forecast_range,desc):
+    xx[k] = f(xx[k-1],t-dt,dt) + sqrt(dt)*f.noise.sample(1)
+
+  if N == 1 and squeeze:
+    xx = xx[:,0,:]
+
+  return xx
 
 def simulate_or_load(script,setup, sd, more): 
   t = setup.t
