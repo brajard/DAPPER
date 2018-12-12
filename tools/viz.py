@@ -974,6 +974,7 @@ def plot_time_series(stats,dim=0,**kwargs):
   ax_e.set_ylabel('RMS')
   ax_e.set_xlabel('timed (t)')
   ax_e.legend()
+  return fg
 
 
 def plot_hovmoller(xx,chrono=None,**kwargs):
